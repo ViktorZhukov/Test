@@ -2,23 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
+using Owin;
+
+[assembly: OwinStartup(typeof(BookStore.Startup))]
 
 namespace BookStore
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+       /* public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
+        }*/
+                
+        public void Configuration(IAppBuilder app)
+        {
 
-        public IConfiguration Configuration { get; }
+            // настраиваем контекст и менеджер
+            app.CreatePerOwinContext<ApplicationContext>(ApplicationContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+            });
+        }
+        
+
+       // public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

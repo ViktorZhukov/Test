@@ -20,14 +20,9 @@ namespace BookStore
 {
     public class Startup
     {
-       /* public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }*/
-                
+                       
         public void Configuration(IAppBuilder app)
         {
-
             // настраиваем контекст и менеджер
             app.CreatePerOwinContext<ApplicationContext>(ApplicationContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -62,7 +57,6 @@ namespace BookStore
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthorization();

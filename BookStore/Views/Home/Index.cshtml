@@ -1,39 +1,46 @@
-﻿
-@{
-    Layout = null;//мастер-страница не будет применяться к этому представлению
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Книжный магазин</title>
-</head>
-<body>
-    <div>
-        <h3>Распродажа книг</h3>
-        <table>
-            <tr>
-                <td><p>Название книги</p></td>
-                <td><p>Автор</p></td>
-                <td><p>Цена</p></td>
-                <td><p>Кол-во</p></td>
-                <td></td>
-            </tr>
-            @foreach (var b in ViewBag.Books)
-            {
-                if (b.Count > 0)
-                {
-                    <tr>
-                        <td><p>@b.Name</p></td>
-                        <td><p>@b.Author</p></td>
-                        <td><p>@b.Price</p></td>
-                        <td><p>@b.Count</p></td>
-                        <td><p><a href="/Home/Buy/@b.Id">Купить</a></p></td>
-                    </tr>
-                }
-            }
+﻿@model BookStore.Models.RegisterModel
 
-        </table>
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Регистрация</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>Регистрация пользователя</h4>
+        <hr />
+        @Html.ValidationSummary(false)
+
+        <div>
+            Электронный адрес
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>       
+
+        <div>
+            Пароль
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Подтвердить пароль
+            <div>
+                @Html.EditorFor(model => model.PasswordConfirm)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Зарегистрировать" />
+            </div>
+        </div>
     </div>
-</body>
-</html>
+}
